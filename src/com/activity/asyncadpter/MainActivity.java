@@ -19,7 +19,10 @@ import com.fedorvlasov.lazylist.R;
 
 
 import android.app.Activity;
+import android.content.Context;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -64,6 +67,7 @@ public class MainActivity extends Activity {
    
     public void searchTwitter(View view) throws Exception{
     	
+    	
     	progressBar1=(ProgressBar)findViewById(R.id.progressBar1);
 		search=(Button)findViewById(R.id.search_btn);
 		EditText searchedit=(EditText)findViewById(R.id.search_edit);
@@ -76,23 +80,67 @@ public class MainActivity extends Activity {
 		progressBar1.setVisibility(View.VISIBLE);
 		//get user entered search term
 		
-        String searchterm=searchedit.getText().toString();
+		if(checkInternetConnection())
+		{
+			String searchterm=searchedit.getText().toString();
         
-        try
-        {
-        	String encodedSearch = URLEncoder.encode(searchterm, "UTF-8");
-        	String searchURL = "http://search.twitter.com/search.json?q="+encodedSearch;
-            new GetTweets().execute(searchURL);
+			try
+			{
+				String encodedSearch = URLEncoder.encode(searchterm, "UTF-8");
+				String searchURL = "http://search.twitter.com/search.json?q="+encodedSearch;
+				new GetTweets().execute(searchURL);
         	
-        }
-        catch(Exception e)
-        {
-        	e.printStackTrace();
-        }
-		
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		else
+		{
+			Toast.makeText(getApplicationContext(), "Please check your network connectivity!", Toast.LENGTH_LONG).show();
+			search.setEnabled(true);
+			progressBar1.setVisibility(View.INVISIBLE);
+			return;
+		}
 
     }
 
+ 
+	public boolean isNetworkAvailable() {
+	    ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+	    // if no network is available networkInfo will be null
+	    // otherwise check if we are connected
+	    if (networkInfo != null && networkInfo.isConnected()) 
+	    {
+	        return true;
+	    }
+	    return false;
+	} 
+	
+	 
+	private boolean checkInternetConnection() {
+
+		ConnectivityManager conMgr = (ConnectivityManager) getSystemService (Context.CONNECTIVITY_SERVICE);
+
+		// ARE WE CONNECTED TO THE NET
+
+		if (conMgr.getActiveNetworkInfo() != null
+
+		&& conMgr.getActiveNetworkInfo().isAvailable()
+
+		&& conMgr.getActiveNetworkInfo().isConnected()) {
+
+		return true;
+
+		} else {
+
+		return false;
+
+		}
+
+		} 
     private class GetTweets extends AsyncTask<String, Void, String> {
     	/*
     	 * Carry out fetching task in background

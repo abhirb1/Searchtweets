@@ -17,20 +17,21 @@
 
     <TextView
         android:id="@+id/text"
-        android:layout_width="318dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/image"
         android:textColor="#002211"
-        android:textSize="15sp" android:padding="10dp" android:textStyle="bold" />
+        android:textSize="15sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tweet" 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/text"
-        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:layout_below="@+id/text"
-        android:textColor="#0099CC" android:padding="10dp" />
+        android:textColor="#336699" android:padding="1dp" />
 
 </RelativeLayout>

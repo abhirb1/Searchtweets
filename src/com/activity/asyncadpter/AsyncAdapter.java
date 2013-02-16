@@ -18,7 +18,7 @@ public class AsyncAdapter extends BaseAdapter {
     private String[] data,usernames,tweets;
     private static LayoutInflater inflater=null;
     public ImageLoader imageLoader; 
-    private int[] colors = new int[] { 0x003399, 0x003399 };
+  //  private int[] colors = new int[] { 0x003399, 0x003399 };
     public AsyncAdapter(Activity a, String[] d,String[] u,String[] t) {
         activity = a;
         data=d;
@@ -45,8 +45,8 @@ public class AsyncAdapter extends BaseAdapter {
         if(convertView==null)
             vi = inflater.inflate(R.layout.item, null);
 
-        int colorPos = position % colors.length;
-        vi.setBackgroundColor(colors[colorPos]);
+       // int colorPos = position % colors.length;
+        //vi.setBackgroundColor(colors[colorPos]);
         
         TextView text=(TextView)vi.findViewById(R.id.text);
         TextView tweet=(TextView)vi.findViewById(R.id.tweet);
